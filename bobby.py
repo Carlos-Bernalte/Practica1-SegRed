@@ -1,5 +1,10 @@
-'''Que se conecte al puerto 12345 y reciva el mensaje encriptado y lo desencripte hasta que se reciba el mensaje "FIN"'''
-
+#!/usr/bin/env python3
+'''
+    autor: Carlos Bernalte & Angel García
+    fecha: 2022-10-08
+    descripción: Suplantar el comportamiento de un del ejecutable 'bob' para
+    que se comunique con el 'alice' y saque el mensaje oculto codificado en ROT-8.
+'''
 import socket
 import sys
 import time
@@ -28,14 +33,17 @@ def escribir_archivo(mensaje):
         archivo.write(mensaje)
 
 def main():
+    '''Borrar el contenido del archivo de texto en caso de que ya exista'''
+    with open('bobby.txt', 'w') as archivo:
+        archivo.truncate()
+
     '''Función principal'''
     try:
-
-        s = intentar_conexion()
-        while s is None:
-            time.sleep(1)
+        while True:
             s = intentar_conexion()
-
+            if s:
+                break
+            time.sleep(1)
         while True:
             data = s.recv(1024)
 
